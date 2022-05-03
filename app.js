@@ -40,7 +40,7 @@ function newsFeed() {
 newslist.push('</ul>');
 newslist.push(`
     <div>
-        <a href="#/page/${store.currentPage - 1}">이전 페이지</a>
+        <a href="#/page/${store.currentPage > 1 ? store.currentPage - 1 : 1}">이전 페이지</a>
         <a href="#/page/${store.currentPage + 1}">다음 페이지</a>
     </div>
 
@@ -64,7 +64,7 @@ function newsDetail() {// 자바스크립트는 함수를 값으로 취급
         <h1>${newsContent.title}</h1>
 
         <div>
-            <a href="#">목록으로</a>
+            <a href="#/page/${store.currentPage}">목록으로</a>
         </div>
     `;
     // title.innerHTML = newsContent.title;
