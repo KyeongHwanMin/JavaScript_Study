@@ -24,8 +24,20 @@ console.log(ajax.response);
 function newsFeed() {
     const newsFeed = getData(NEWS_URL);// 응답 값을 객체로 변환
     const newslist = [];
+    let template = `
+        <div class="container mx-auto p-4 ">
+            <h1>kacker News</h1>
+            <ul>
+                {{__news_feed__}}
+            </ul>
+            <div>
+                <a href="#/page/{{__prev_page__}}">이전 페이지</a>
+                <a href="#/page/{{__next_page__}}">다음 페이지</a>
+            </div>
+        </div>
+    `;
 
-    newslist.push('<ul>');
+    
 
     for(let i = (store.currentPage - 1) * 10; i< store.currentPage * 10; i++){
         // ${} 변수 표현
@@ -36,17 +48,14 @@ function newsFeed() {
                 </a>
             </li>
         `);  
-}
-newslist.push('</ul>');
-newslist.push(`
-    <div>
-        <a href="#/page/${store.currentPage > 1 ? store.currentPage - 1 : 1}">이전 페이지</a>
-        <a href="#/page/${store.currentPage + 1}">다음 페이지</a>
-    </div>
+    }
 
-`);
+    template = template.replace('{{__news_feed__}}', newslist.join(''));
+    template = template.replace('{{__prev_page__}}', store.currentPage > 1 ? store.currentPage - 1 : 1);
+    template = template.replace('{{__next_page__}}', store.currentPage + 1 );
 
-container.innerHTML = newslist.join(''); // 배열안에 있는 요소들을 하나의 문자열로 변환.
+
+container.innerHTML = template; // 배열안에 있는 요소들을 하나의 문자열로 변환.
 }
 
 
